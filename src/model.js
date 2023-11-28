@@ -17,22 +17,22 @@ export class Human extends Model {
 
 Human.init(
   {
-    human_id: {
+    humanId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
 
     },
     fname: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(25),
       allowNull: false
     },
     lname: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(25),
       allowNull: false
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false
     }
   }, {
@@ -41,35 +41,35 @@ Human.init(
 }
 )
 
-export class Animal extends Model {
+ export class Animal extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
 Animal.init({
-  animal_id: {
+  animalId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true
   },
   name: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(50),
     allowNull: false  
   },
   species: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(25),
     allowNull: false
   },
-  birth_year: {
+  birthYear: {
     type: DataTypes.INTEGER
   }},{
     modelName: 'animal',
     sequelize: db
   });
 
-Human.hasMany(Animal, {foreignKey: 'human_id'});
-Animal.belongsTo(Human, {foreignKey: 'human_id'});
+Human.hasMany(Animal, {foreignKey: 'humanId'});
+Animal.belongsTo(Human, {foreignKey: 'humanId'});
 
 
 export default db;
