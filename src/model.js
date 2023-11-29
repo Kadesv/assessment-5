@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import util from 'util';
 import connectToDB from './db.js';
+import {log} from 'console';
 
 const db = await connectToDB('postgresql:///animals');
 
@@ -8,12 +9,13 @@ export class Human extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
+  getFullName(owner) {
+    
+    return (owner.fname+ ' ' + owner.lname)
+  }
+  
+}
 
-  getFullName(obj) {
-    const fullName = obj.map((human) => `${human.fname}+' '+${human.lname}`)
-    return fullName;
-}
-}
 
 Human.init(
   {
@@ -41,7 +43,7 @@ Human.init(
 }
 )
 
- export class Animal extends Model {
+export class Animal extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
@@ -55,7 +57,7 @@ Animal.init({
   },
   name: {
     type: DataTypes.STRING(50),
-    allowNull: false  
+    allowNull: false
   },
   species: {
     type: DataTypes.STRING(25),
@@ -63,13 +65,14 @@ Animal.init({
   },
   birthYear: {
     type: DataTypes.INTEGER
-  }},{
-    modelName: 'animal',
-    sequelize: db
-  });
+  }
+}, {
+  modelName: 'animal',
+  sequelize: db
+});
 
-Human.hasMany(Animal, {foreignKey: 'humanId'});
-Animal.belongsTo(Human, {foreignKey: 'humanId'});
+Human.hasMany(Animal, { foreignKey: 'humanId' });
+Animal.belongsTo(Human, { foreignKey: 'humanId' });
 
 
 export default db;

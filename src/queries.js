@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import { Animal, Human } from './model.js';
+import {log} from 'console';
 
 // Get the human with the primary key 2
 export const query1 = await Human.findByPk(2);
@@ -61,12 +62,31 @@ export const query8 = await Human.findAll({
 // Print a directory of humans and their animals
 export async function printHumansAndAnimals() {
 
+
+
+
 }
 
 // Return a Set containing the full names of all humans
 // with animals of the given species.
-export async function getHumansByAnimalSpecies(species) {
-    // const animal = await Animal.findAll({ include: human_id});
+export async function getHumansByAnimalSpecies(givenSpecies) {
+    // log(givenSpecies);
+    const humans = new Set();
+    const pets = await Animal.findAll({
+        where: {
+            species: givenSpecies
+        },
+    });
+    pets.forEach(async (pet) => {
+        const huId = pet.humanId;
+        const owner = await Human.findByPk(huId);
+        // log(owner)
+        humans.add(owner.getFullName(owner))
+
+    })
+    log(humans)
+    return humans;
+
+};
 
 
-}

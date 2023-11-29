@@ -10,5 +10,3 @@ SELECT cupcakes.name, SUM(orders.num_cupcakes) FROM orders FULL OUTER JOIN cupca
 SELECT customers.email, SUM(num_cupcakes) AS total FROM orders LEFT JOIN customers ON customers.id = orders.customer_id GROUP BY email ORDER BY total DESC;
 -- question 6
 SELECT DISTINCT c.fname, c.lname, c.email FROM customers c JOIN orders o ON c.id = o.customer_id WHERE o.cupcake_id = 5 AND o.processed = TRUE;
-
-
